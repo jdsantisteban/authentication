@@ -13,7 +13,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			token: localStorage.getItem("token")|| null,
+			users:[]
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -46,6 +48,60 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
+			},
+			login: async(data)=>{
+				let store = getStore()
+				try {
+					let response = await fetch(`${process.env.BACKEND_URL}/login`, {
+						method:"POST",
+						headers:{
+							"Content-Type":"application/json"
+						},
+						body:JSON.stringify(data)
+					})
+
+					if(response.ok){
+						let result = await response.json()	
+						console.log(result)
+						setStore({
+							token:result.token
+						})
+						localStorage.setItem("token",result.token)
+					}
+					return response.status
+					
+				} catch (error) {
+					console.log(error)
+				}
+			},
+			getUser:async ()=>{
+				let store = getStore()
+				try {
+					let response = await fetch(`${process.env.BACKEND_URL}/user`, {
+						headers:{
+							"Authorization":`Bearer ${store.token}`
+						}
+					})
+
+					if(response.ok){
+						let result = await response.json()
+						setStore({
+							users:result
+						})
+					}
+					if(response.status == 401 || response.status == 422){
+						getActions().logout()
+					}
+					console.log(response.status)
+				} catch (error) {
+					conasole.log(error)
+				}
+			},
+			logout:()=>{
+				setStore({
+					token:null
+				})
+				localStorage.removeItem("token")
 			}
 		}
 	};
