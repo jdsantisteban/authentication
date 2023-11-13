@@ -3,7 +3,7 @@ import { Context } from '../store/appContext'
 import { Navigate } from 'react-router-dom'
 
 
-const UserProtected = () => {
+const Private = () => {
     const { store, actions } = useContext(Context)
 
     useEffect(() => {
@@ -28,4 +28,4 @@ const UserProtected = () => {
     )
 }
 
-export default UserProtected
+export default Private

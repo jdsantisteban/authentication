@@ -1,9 +1,11 @@
 import React, { useState, useContext } from "react"
 import { Context } from "../store/appContext"
+import { useNavigate } from "react-router-dom"
 
-const Login = () => {
-    const { actions } = useContext(Context)
+const Signup = () => {
 
+    const Navigate = useNavigate()
+    const { actions, store } = useContext(Context)
     const [user, setUser] = useState({
         email: "",
         password: ""
@@ -16,9 +18,9 @@ const Login = () => {
         })
     }
 
-    const handleLogin = async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
-        let result = await actions.login(user)
+        let result = await actions.signup(user)
         console.log(result)
         if(result == 400) {
             alert("Bad credentials")
@@ -28,9 +30,9 @@ const Login = () => {
     return (
         <>
             <div className="container">
-                <h1>Login</h1>
-                <form onSubmit={handleLogin}>
-                    <div className="form-group">
+                <h1>Signup</h1>
+                <form onSubmit={handleSubmit}>
+                <div className="form-group">
                         <label>Email address</label>
                         <input
                             type="email"
@@ -53,11 +55,11 @@ const Login = () => {
                         />
                     </div>
 
-                    <button type="submit" className="btn btn-primary mt-4">Login</button>
+                    <button type="submit" className="btn btn-primary mt-4">Signup</button>
                 </form>
             </div>
         </>
     )
 }
 
-export default Login
+export default Signup

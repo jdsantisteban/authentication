@@ -18,7 +18,7 @@ export const Navbar = () => {
 						</Link>
 
 					}
-					<button onClick={()=>{actions.logout()}}>
+					<button className="btn btn-danger mx-2" onClick={()=>{actions.logout()}}>
 						Logout
 					</button>
 				</div>

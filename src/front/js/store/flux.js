@@ -14,8 +14,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-			token: localStorage.getItem("token")|| null,
-			users:[]
+			token: localStorage.getItem("token") || null,
+			users: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -24,14 +24,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getMessage: async () => {
-				try{
+				try {
 					// fetching data from the backend
 					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
 					const data = await resp.json()
 					setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves
 					return data;
-				}catch(error){
+				} catch (error) {
 					console.log("Error loading message from backend", error)
 				}
 			},
@@ -49,47 +49,63 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//reset the global store
 				setStore({ demo: demo });
 			},
-			login: async(data)=>{
+			login: async (data) => {
 				let store = getStore()
 				try {
 					let response = await fetch(`${process.env.BACKEND_URL}/login`, {
-						method:"POST",
-						headers:{
-							"Content-Type":"application/json"
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
 						},
-						body:JSON.stringify(data)
+						body: JSON.stringify(data)
 					})
 
-					if(response.ok){
-						let result = await response.json()	
+					if (response.ok) {
+						let result = await response.json()
 						console.log(result)
 						setStore({
-							token:result.token
+							token: result.token
 						})
-						localStorage.setItem("token",result.token)
+						localStorage.setItem("token", result.token)
 					}
 					return response.status
-					
+
 				} catch (error) {
 					console.log(error)
 				}
 			},
-			getUser:async ()=>{
+			signup: async (user) => {
+				let store = getStore()
+				try {
+					let response = await fetch(`${process.env.BACKEND_URL}/signup`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify(user)
+					})
+
+
+				} catch (error) {
+					console.log(error)
+				}
+			},
+			getUser: async () => {
 				let store = getStore()
 				try {
 					let response = await fetch(`${process.env.BACKEND_URL}/user`, {
-						headers:{
-							"Authorization":`Bearer ${store.token}`
+						headers: {
+							"Authorization": `Bearer ${store.token}`
 						}
 					})
 
-					if(response.ok){
+					if (response.ok) {
 						let result = await response.json()
 						setStore({
-							users:result
+							users: result
 						})
 					}
-					if(response.status == 401 || response.status == 422){
+					if (response.status == 401 || response.status == 422) {
 						getActions().logout()
 					}
 					console.log(response.status)
@@ -97,9 +113,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					conasole.log(error)
 				}
 			},
-			logout:()=>{
+			logout: () => {
 				setStore({
-					token:null
+					token: null
 				})
 				localStorage.removeItem("token")
 			}
