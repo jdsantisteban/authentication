@@ -44,6 +44,7 @@ def add_user():
     
     if password is None or len(password.strip()) == 0:
         return jsonify({'message': 'Enter a valid password'}), 400
+        
     
     # Checking wheter a user exists
     user = User.query.filter_by(email=email).one_or_none()

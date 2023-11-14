@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 
 const Signup = () => {
 
-    const Navigate = useNavigate()
+    const navigate = useNavigate()
     const { actions, store } = useContext(Context)
     const [user, setUser] = useState({
         email: "",
@@ -24,6 +24,9 @@ const Signup = () => {
         console.log(result)
         if(result == 400) {
             alert("Bad credentials")
+        } 
+        if(result==200) {
+            navigate("/login")
         }
     }
 

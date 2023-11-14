@@ -77,14 +77,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			signup: async (user) => {
 				let store = getStore()
 				try {
-					let response = await fetch(`${process.env.BACKEND_URL}/signup`, {
+					let response = await fetch(`${process.env.BACKEND_URL}/user`, {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json"
 						},
 						body: JSON.stringify(user)
 					})
-
+					return response.status
 
 				} catch (error) {
 					console.log(error)
