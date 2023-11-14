@@ -11,16 +11,16 @@ export const Navbar = () => {
 					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
 				</Link>
 				<div className="ml-auto">
-					{
+					{/* {
 						store.token != null && 
 						<Link to="/private">
 							<button className="btn btn-primary">Private</button>
 						</Link>
 
-					}
-					<button className="btn btn-danger mx-2" onClick={()=>{actions.logout()}}>
+					} */}
+					{/* <button className="btn btn-danger" onClick={()=>{actions.logout()}}>
 						Logout
-					</button>
+					</button> */}
 				</div>
 			</div>
 		</nav>

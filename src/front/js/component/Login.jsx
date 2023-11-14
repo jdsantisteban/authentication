@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react"
 import { Context } from "../store/appContext"
 import { useNavigate } from "react-router-dom"
+import Swal from "sweetalert2"
 
 const Login = () => {
     const navigate = useNavigate()
@@ -23,7 +24,12 @@ const Login = () => {
         let result = await actions.login(user)
         console.log(result)
         if(result == 400) {
-            alert("Bad credentials")
+            // alert("Email and password not valid")
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Email and password not valid'
+            })
         }
         if(result == 200) {
             navigate("/private")

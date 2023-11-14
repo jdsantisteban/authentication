@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react"
 import { Context } from "../store/appContext"
 import { useNavigate } from "react-router-dom"
+import Swal from "sweetalert2"
 
 const Signup = () => {
 
@@ -23,7 +24,11 @@ const Signup = () => {
         let result = await actions.signup(user)
         console.log(result)
         if(result == 400) {
-            alert("Bad credentials")
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Email and password not valid'
+            })
         } 
         if(result==200) {
             navigate("/login")
